@@ -9,7 +9,7 @@ class ActivityEvidence extends Model
 {
     use HasFactory;
 
-    protected $table = 'activity_evidences';
+    protected $table = 'evidencias_actividades';
 
     protected $fillable = [
         'activity_id',

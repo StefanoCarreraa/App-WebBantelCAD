@@ -31,7 +31,7 @@ class TrackVisitStats
                         ->value('id');
                 }
 
-                DB::table('visit_stats')->updateOrInsert(
+                DB::table('estadisticas_visitas')->updateOrInsert(
                     [
                         'region_id' => $region->id,
                         'page_type' => $pageType,

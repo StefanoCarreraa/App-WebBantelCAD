@@ -16,16 +16,16 @@ class ResourceController extends Controller
         $region = Region::where('slug', $regionSlug)->firstOrFail();
 
         // Consulta a las tablas creadas en la migración transversal
-        $resources = DB::table('digital_resources')
+        $resources = DB::table('recursos_digitales')
             ->where('region_id', $region->id)
             ->get();
 
-        $externalLinks = DB::table('external_links')
+        $externalLinks = DB::table('enlaces_externos')
             ->where('region_id', $region->id)
             ->where('is_active', true)
             ->get()
             ->groupBy('category');
 
-        return view('web.resources.index', compact('region', 'resources', 'externalLinks'));
+        return view('web.recursos.index', compact('region', 'resources', 'externalLinks'));
     }
 }

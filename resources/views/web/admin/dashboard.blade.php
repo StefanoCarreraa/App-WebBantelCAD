@@ -24,7 +24,7 @@
                 <p class="font-weight-bold">Centros CAD/CAU Totales</p>
             </div>
             <div class="icon"><i class="fas fa-building"></i></div>
-            <a href="{{ route('admin.centers.index') }}" class="small-box-footer">Gestionar Centros <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ route('admin.centros.index') }}" class="small-box-footer">Gestionar Centros <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 
@@ -35,7 +35,7 @@
                 <p class="font-weight-bold">Actividades Programadas</p>
             </div>
             <div class="icon"><i class="fas fa-calendar-check"></i></div>
-            <a href="{{ route('admin.activities.index') }}" class="small-box-footer">Ver Agenda <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ route('admin.actividades.index') }}" class="small-box-footer">Ver Agenda <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 
@@ -46,7 +46,7 @@
                 <p class="font-weight-bold">Noticias Publicadas</p>
             </div>
             <div class="icon"><i class="fas fa-newspaper"></i></div>
-            <a href="{{ route('admin.news.index') }}" class="small-box-footer text-dark">Ver Noticias <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ route('admin.noticias.index') }}" class="small-box-footer text-dark">Ver Noticias <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 
@@ -57,7 +57,7 @@
                 <p class="font-weight-bold">Total Actividades</p>
             </div>
             <div class="icon"><i class="fas fa-tasks"></i></div>
-            <a href="{{ route('admin.activities.index') }}" class="small-box-footer">Historial Completo <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ route('admin.actividades.index') }}" class="small-box-footer">Historial Completo <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 </div>
@@ -99,7 +99,7 @@
                 <h5 class="card-title font-weight-bold text-dark mb-0">
                     <i class="fas fa-history text-secondary mr-2"></i> Últimas Actividades Registradas
                 </h5>
-                <a href="{{ route('admin.activities.index') }}" class="btn btn-sm btn-outline-primary font-weight-bold rounded-pill">Ver Todo</a>
+                <a href="{{ route('admin.actividades.index') }}" class="btn btn-sm btn-outline-primary font-weight-bold rounded-pill">Ver Todo</a>
             </div>
             <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-hover table-valign-middle mb-0">

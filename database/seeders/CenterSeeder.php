@@ -9,8 +9,8 @@ class CenterSeeder extends Seeder
 {
     public function run(): void
     {
-        $pascoId = DB::table('regions')->where('slug', 'pasco')->value('id');
-        $huanucoId = DB::table('regions')->where('slug', 'huanuco')->value('id');
+        $pascoId = DB::table('regiones')->where('slug', 'pasco')->value('id');
+        $huanucoId = DB::table('regiones')->where('slug', 'huanuco')->value('id');
 
         // Matriz Huánuco (6 CAD A, 53 CAD B, 7 CAU = 66 total)
         $huanucoCenters = [
@@ -46,7 +46,7 @@ class CenterSeeder extends Seeder
     private function insertMatrix(array $data, int $regionId, string $prefix, int $cadBCount): void
     {
         foreach ($data as $c) {
-            DB::table('centers')->updateOrInsert(['code' => $c['code']], [
+            DB::table('centros')->updateOrInsert(['code' => $c['code']], [
                 'region_id' => $regionId,
                 'type' => $c['type'],
                 'name' => $c['name'],
@@ -62,7 +62,7 @@ class CenterSeeder extends Seeder
         }
         for ($i = 1; $i <= $cadBCount; $i++) {
             $code = sprintf('%s-%04d-CB', $prefix, $i + 100);
-            DB::table('centers')->updateOrInsert(['code' => $code], [
+            DB::table('centros')->updateOrInsert(['code' => $code], [
                 'region_id' => $regionId,
                 'type' => 'CAD_B',
                 'name' => "CAD Localidad $i",

@@ -9,6 +9,8 @@ class Activity extends Model
 {
     use HasFactory;
 
+    protected $table = 'actividades';
+
     protected $fillable = [
         'center_id',
         'title',

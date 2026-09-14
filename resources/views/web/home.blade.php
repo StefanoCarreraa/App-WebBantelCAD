@@ -95,7 +95,7 @@
             </p>
             <div
                 class="d-flex flex-wrap justify-content-center gap-3 mt-4 animate__animated animate__zoomIn animate__delay-1s">
-                <a href="{{ route('cad.index', ['region' => $region->slug]) }}"
+                <a href="{{ route('centros.index', ['region' => $region->slug]) }}"
                     class="btn btn-warning btn-lg font-weight-bold shadow-lg m-2 px-4 rounded-pill">
                     <i class="fas fa-search-location mr-2"></i> Encuentra tu CAD
                 </a>

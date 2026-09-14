@@ -87,7 +87,7 @@
                 En cada CAD, los ciudadanos pueden aprender a utilizar las Tecnologías de la Información y Comunicación (TIC), realizar trámites virtuales en plataformas del Estado (gob.pe), impulsar emprendimientos locales y recibir capacitación técnica continua con la orientación presencial de un gestor digital.
             </p>
             <div class="d-flex flex-wrap gap-2">
-                <a href="{{ route('cad.index', ['region' => $region->slug]) }}" class="btn btn-primary font-weight-bold px-4 py-2 rounded-pill shadow-sm">
+                <a href="{{ route('centros.index', ['region' => $region->slug]) }}" class="btn btn-primary font-weight-bold px-4 py-2 rounded-pill shadow-sm">
                     <i class="fas fa-search-location mr-2"></i> Buscar un CAD en {{ $region->name }}
                 </a>
             </div>

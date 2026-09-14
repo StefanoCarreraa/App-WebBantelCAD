@@ -19,9 +19,10 @@ class NewsController extends Controller
         $news = News::where('region_id', $region->id)
             ->where('status', 'PUBLISHED')
             ->orderBy('published_at', 'desc')
-            ->paginate(6);
+            ->paginate(6)
+            ->withQueryString();
 
-        return view('web.news.index', compact('region', 'news'));
+        return view('web.noticias.index', compact('region', 'news'));
     }
 
     /**
@@ -36,6 +37,6 @@ class NewsController extends Controller
             ->where('status', 'PUBLISHED')
             ->firstOrFail();
 
-        return view('web.news.show', compact('region', 'article'));
+        return view('web.noticias.show', compact('region', 'article'));
     }
 }

@@ -9,6 +9,8 @@ class Center extends Model
 {
     use HasFactory;
 
+    protected $table = 'centros';
+
     protected $fillable = [
         'region_id', 'code', 'type', 'name', 'province', 
         'district', 'locality', 'address', 'latitude', 'longitude', 

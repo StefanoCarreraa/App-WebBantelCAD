@@ -113,7 +113,7 @@
         <nav class="main-header navbar navbar-expand-md navbar-dark bg-dark-blue border-0 shadow-sm sticky-top py-2">
             <div class="container">
                 <!-- Logos Oficiales -->
-                <a href="{{ route('home', ['region' => $region->slug ?? 'huanuco']) }}" class="navbar-brand py-0">
+                <a href="{{ route('inicio', ['region' => $region->slug ?? 'huanuco']) }}" class="navbar-brand py-0">
                     <div class="brand-logo-container">
                         <img src="https://www.arequipabandaanchapronatel.pe/_next/image?url=%2Fbandaancha_logo_trim.png&w=1920&q=75"
                             alt="Banda Ancha Logo" class="brand-logo-img">
@@ -130,13 +130,13 @@
 
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav ml-auto font-weight-bold">
-                        <li class="nav-item"><a href="{{ route('home', ['region' => $region->slug ?? 'huanuco']) }}"
+                        <li class="nav-item"><a href="{{ route('inicio', ['region' => $region->slug ?? 'huanuco']) }}"
                                 class="nav-link text-white">Inicio</a></li>
                         <li class="nav-item"><a
-                                href="{{ route('about.cad', ['region' => $region->slug ?? 'huanuco']) }}"
+                                href="{{ route('sobre.cad', ['region' => $region->slug ?? 'huanuco']) }}"
                                 class="nav-link text-white">¿Qué es un CAD?</a></li>
                         <li class="nav-item"><a
-                                href="{{ route('cad.index', ['region' => $region->slug ?? 'huanuco']) }}"
+                                href="{{ route('centros.index', ['region' => $region->slug ?? 'huanuco']) }}"
                                 class="nav-link text-white">Centros CAD</a></li>
                         <li class="nav-item"><a
                                 href="{{ route('agenda.index', ['region' => $region->slug ?? 'huanuco']) }}"
@@ -185,14 +185,14 @@
                         </h6>
                         <ul class="list-unstyled small">
                             <li class="mb-2"><a
-                                    href="{{ route('home', ['region' => $region->slug ?? 'huanuco']) }}"><i
+                                    href="{{ route('inicio', ['region' => $region->slug ?? 'huanuco']) }}"><i
                                         class="fas fa-chevron-right small text-warning mr-1"></i> Inicio</a></li>
                             <li class="mb-2"><a
-                                    href="{{ route('about.cad', ['region' => $region->slug ?? 'huanuco']) }}"><i
+                                    href="{{ route('sobre.cad', ['region' => $region->slug ?? 'huanuco']) }}"><i
                                         class="fas fa-chevron-right small text-warning mr-1"></i> ¿Qué es un CAD?</a>
                             </li>
                             <li class="mb-2"><a
-                                    href="{{ route('cad.index', ['region' => $region->slug ?? 'huanuco']) }}"><i
+                                    href="{{ route('centros.index', ['region' => $region->slug ?? 'huanuco']) }}"><i
                                         class="fas fa-chevron-right small text-warning mr-1"></i> Directorio de CAD</a>
                             </li>
                             <li class="mb-2"><a
@@ -263,6 +263,53 @@
             duration: 800,
             once: true,
             easing: 'ease-out-cubic'
+        });
+
+        document.addEventListener('click', function(event) {
+            const link = event.target.closest('.pagination a');
+            if (!link) {
+                return;
+            }
+
+            event.preventDefault();
+
+            const content = document.querySelector('.content-wrapper');
+            if (!content || link.dataset.loading === 'true') {
+                return;
+            }
+
+            link.dataset.loading = 'true';
+            content.style.opacity = '0.55';
+
+            fetch(link.href, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('No se pudo cargar la siguiente página.');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    const page = new DOMParser().parseFromString(html, 'text/html');
+                    const nextContent = page.querySelector('.content-wrapper');
+
+                    if (!nextContent) {
+                        throw new Error('La respuesta no contiene el listado solicitado.');
+                    }
+
+                    content.innerHTML = nextContent.innerHTML;
+                    window.scrollTo({ top: content.offsetTop - 20, behavior: 'smooth' });
+                })
+                .catch(error => {
+                    window.dispatchEvent(new CustomEvent('pagination:error', {
+                        detail: error.message
+                    }));
+                })
+                .finally(() => {
+                    content.style.opacity = '';
+                    link.dataset.loading = 'false';
+                });
         });
     </script>
     @stack('scripts')

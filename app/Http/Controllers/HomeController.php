@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Region;
@@ -13,7 +13,6 @@ class HomeController extends Controller
     {
         $region = Region::where('slug', $regionSlug)->firstOrFail();
 
-        // Cifras destacadas exigidas por PRONATEL
         $stats = [
             'total_cad' => Center::where('region_id', $region->id)->where('type', '!=', 'CAU')->count(),
             'cad_a' => Center::where('region_id', $region->id)->where('type', 'CAD_A')->count(),
@@ -21,7 +20,6 @@ class HomeController extends Controller
             'cau' => Center::where('region_id', $region->id)->where('type', 'CAU')->count(),
         ];
 
-        // Próximas actividades registradas
         $upcomingActivities = Activity::whereHas('center', function($q) use ($region) {
             $q->where('region_id', $region->id);
         })->where('status', 'SCHEDULED')

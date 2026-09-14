@@ -10,12 +10,12 @@ return new class extends Migration
     {
         Schema::create('regions', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Pasco, Huánuco
-            $table->string('slug')->unique(); // pasco, huanuco
-            $table->integer('total_cad_a')->default(0);
-            $table->integer('total_cad_b')->default(0);
-            $table->integer('total_cau')->default(0);
-            $table->boolean('status')->default(true);
+            $table->string('name'); // Ejemplo: Pasco, Huánuco
+            $table->string('slug')->unique(); // Ejemplo: pasco, huanuco
+            $table->integer('total_cad_a')->default(0); // Total de CAD tipo A
+            $table->integer('total_cad_b')->default(0); // Total de CAD tipo B
+            $table->integer('total_cau')->default(0); // Total de CAU
+            $table->boolean('status')->default(true); // Estado activo/inactivo de la región
             $table->timestamps();
         });
     }

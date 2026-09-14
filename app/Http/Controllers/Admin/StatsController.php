@@ -14,26 +14,40 @@ class StatsController extends Controller
         $period = $request->get('period', 'daily'); // daily, weekly, monthly
         $regionId = $request->get('region_id');
 
-        $query = DB::table('visit_stats')
-            ->join('regions', 'visit_stats.region_id', '=', 'regions.id')
-            ->select('regions.name as region', 'visit_stats.page_type', DB::raw('SUM(views_count) as total_views'));
+        $query = DB::table('estadisticas_visitas')
+            ->join('regiones', 'estadisticas_visitas.region_id', '=', 'regiones.id')
+            ->leftJoin('centros', 'estadisticas_visitas.center_id', '=', 'centros.id')
+            ->select(
+                'regiones.name as region',
+                'estadisticas_visitas.page_type',
+                'centros.code as center_code',
+                'centros.name as center_name',
+                DB::raw('SUM(estadisticas_visitas.views_count) as total_views')
+            );
 
         if ($regionId) {
-            $query->where('region_id', $regionId);
+            $query->where('estadisticas_visitas.region_id', $regionId);
         }
 
         if ($period == 'daily') {
-            $query->where('visit_date', now()->toDateString());
+            $query->where('estadisticas_visitas.visit_date', now()->toDateString());
         } elseif ($period == 'weekly') {
-            $query->where('visit_date', '>=', now()->subDays(7)->toDateString());
+            $query->where('estadisticas_visitas.visit_date', '>=', now()->subDays(7)->toDateString());
         } elseif ($period == 'monthly') {
-            $query->where('visit_date', '>=', now()->subDays(30)->toDateString());
+            $query->where('estadisticas_visitas.visit_date', '>=', now()->subDays(30)->toDateString());
         }
 
-        $stats = $query->groupBy('regions.name', 'visit_stats.page_type')->get();
+        $stats = $query
+            ->groupBy(
+                'regiones.name',
+                'estadisticas_visitas.page_type',
+                'centros.code',
+                'centros.name'
+            )
+            ->orderByDesc('total_views')
+            ->get();
         $regions = Region::where('status', true)->get();
 
-        // Corrección del mapeo de vista a la carpeta web.admin
-        return view('web.admin.stats.index', compact('stats', 'regions', 'period', 'regionId'));
+        return view('web.admin.estadisticas.index', compact('stats', 'regions', 'period', 'regionId'));
     }
 }

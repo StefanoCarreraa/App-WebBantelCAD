@@ -75,6 +75,9 @@
         </p>
     </div>
 </div>
+<div class="d-flex justify-content-center mt-4 mb-5" data-aos="fade-up">
+    {{ $activities->links('pagination::bootstrap-4') }}
+</div>
 
 <div class="container mb-5">
 
@@ -178,11 +181,6 @@
                 <p class="mb-0">No hay talleres disponibles para el criterio de búsqueda seleccionado en la región {{ $region->name }}.</p>
             </div>
         @endforelse
-    </div>
-
-    <!-- 4. Paginación Normalizada -->
-    <div class="d-flex justify-content-center mt-4 mb-5" data-aos="fade-up">
-        {{ $activities->appends(request()->query())->links('pagination::bootstrap-4') }}
     </div>
 
 </div>

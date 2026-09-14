@@ -12,24 +12,40 @@ use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $news = News::with('region')->orderBy('published_at', 'desc')->paginate(10);
-        return view('web.admin.news.index', compact('news'));
+        $search = trim((string) $request->input('search'));
+        $news = News::with('region')
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('title', 'like', "%{$search}%")
+                        ->orWhere('slug', 'like', "%{$search}%")
+                        ->orWhere('summary', 'like', "%{$search}%")
+                        ->orWhere('content', 'like', "%{$search}%")
+                        ->orWhere('status', 'like', "%{$search}%")
+                        ->orWhereHas('region', function ($query) use ($search) {
+                            $query->where('name', 'like', "%{$search}%");
+                        });
+                });
+            })
+            ->orderBy('published_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+        return view('web.admin.noticias.index', compact('news'));
     }
 
     public function create()
     {
         $regions = Region::where('status', true)->get();
         $centers = Center::orderBy('name')->get();
-        return view('web.admin.news.create', compact('regions', 'centers'));
+        return view('web.admin.noticias.create', compact('regions', 'centers'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'region_id'  => 'required|exists:regions,id',
-            'center_id'  => 'nullable|exists:centers,id',
+            'region_id'  => 'required|exists:regiones,id',
+            'center_id'  => 'nullable|exists:centros,id',
             'title'      => 'required|string|max:255',
             'summary'    => 'required|string|max:500',
             'content'    => 'required|string',
@@ -49,21 +65,21 @@ class NewsController extends Controller
 
         News::create($validated);
 
-        return redirect()->route('admin.news.index')->with('success', 'Noticia publicada correctamente.');
+        return redirect()->route('admin.noticias.index')->with('success', 'Noticia publicada correctamente.');
     }
 
     public function edit(News $news)
     {
         $regions = Region::where('status', true)->get();
         $centers = Center::orderBy('name')->get();
-        return view('web.admin.news.edit', compact('news', 'regions', 'centers'));
+        return view('web.admin.noticias.edit', compact('news', 'regions', 'centers'));
     }
 
     public function update(Request $request, News $news)
     {
         $validated = $request->validate([
-            'region_id'  => 'required|exists:regions,id',
-            'center_id'  => 'nullable|exists:centers,id',
+            'region_id'  => 'required|exists:regiones,id',
+            'center_id'  => 'nullable|exists:centros,id',
             'title'      => 'required|string|max:255',
             'summary'    => 'required|string|max:500',
             'content'    => 'required|string',
@@ -88,7 +104,7 @@ class NewsController extends Controller
 
         $news->update($validated);
 
-        return redirect()->route('admin.news.index')->with('success', 'Noticia actualizada con éxito.');
+        return redirect()->route('admin.noticias.index')->with('success', 'Noticia actualizada con éxito.');
     }
 
     public function destroy(News $news)
@@ -98,6 +114,6 @@ class NewsController extends Controller
         }
         $news->delete();
 
-        return redirect()->route('admin.news.index')->with('success', 'Noticia eliminada correctamente.');
+        return redirect()->route('admin.noticias.index')->with('success', 'Noticia eliminada correctamente.');
     }
 }

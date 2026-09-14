@@ -9,7 +9,7 @@ class RegionSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('regions')->updateOrInsert(
+        DB::table('regiones')->updateOrInsert(
             ['slug' => 'pasco'],
             [
                 'name' => 'Pasco',
@@ -22,7 +22,7 @@ class RegionSeeder extends Seeder
             ]
         );
 
-        DB::table('regions')->updateOrInsert(
+        DB::table('regiones')->updateOrInsert(
             ['slug' => 'huanuco'],
             [
                 'name' => 'Huánuco',

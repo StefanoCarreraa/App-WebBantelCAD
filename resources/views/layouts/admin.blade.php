@@ -63,12 +63,12 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ route('home', ['region' => 'pasco']) }}" target="_blank" class="nav-link font-weight-bold text-primary">
+                    <a href="{{ route('inicio', ['region' => 'pasco']) }}" target="_blank" class="nav-link font-weight-bold text-primary">
                         <i class="fas fa-globe mr-1"></i> Ver Portal Público (Pasco)
                     </a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ route('home', ['region' => 'huanuco']) }}" target="_blank" class="nav-link font-weight-bold text-info">
+                    <a href="{{ route('inicio', ['region' => 'huanuco']) }}" target="_blank" class="nav-link font-weight-bold text-info">
                         <i class="fas fa-globe mr-1"></i> Ver Portal Público (Huánuco)
                     </a>
                 </li>
@@ -115,28 +115,28 @@
                         <li class="nav-header font-weight-bold text-uppercase text-light">GESTIÓN DE CONTENIDOS</li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.centers.index') }}" class="nav-link {{ request()->routeIs('admin.centers.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.centros.index') }}" class="nav-link {{ request()->routeIs('admin.centros.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-building text-info"></i>
                                 <p>Centros CAD / CAU</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.activities.index') }}" class="nav-link {{ request()->routeIs('admin.activities.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.actividades.index') }}" class="nav-link {{ request()->routeIs('admin.actividades.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-calendar-alt text-success"></i>
                                 <p>Agenda y Actividades</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.news.index') }}" class="nav-link {{ request()->routeIs('admin.news.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.noticias.index') }}" class="nav-link {{ request()->routeIs('admin.noticias.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-newspaper text-warning"></i>
                                 <p>Noticias y Experiencias</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.resources.index') }}" class="nav-link {{ request()->routeIs('admin.resources.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.recursos.index') }}" class="nav-link {{ request()->routeIs('admin.recursos.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-folder-open text-primary"></i>
                                 <p>Recursos Digitales</p>
                             </a>
@@ -145,21 +145,21 @@
                         <li class="nav-header font-weight-bold text-uppercase text-light">CONFIGURACIÓN Y REPORTES</li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.external-links.index') }}" class="nav-link {{ request()->routeIs('admin.external-links.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.enlaces-externos.index') }}" class="nav-link {{ request()->routeIs('admin.enlaces-externos.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-link text-info"></i>
                                 <p>Enlaces de Interés</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.stats.index') }}" class="nav-link {{ request()->routeIs('admin.stats.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.estadisticas.index') }}" class="nav-link {{ request()->routeIs('admin.estadisticas.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-chart-bar text-warning"></i>
                                 <p>Estadísticas y Visitas</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.usuarios.index') }}" class="nav-link {{ request()->routeIs('admin.usuarios.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-users-cog text-danger"></i>
                                 <p>Usuarios y Roles</p>
                             </a>
@@ -186,6 +186,50 @@
     <script>
         $(document).ready(function() {
             AOS.init({ duration: 800, once: true });
+
+            $(document).on('click', '.pagination a', function(event) {
+                event.preventDefault();
+
+                const link = this;
+                const content = document.querySelector('.content-wrapper');
+                if (!content || link.dataset.loading === 'true') {
+                    return;
+                }
+
+                link.dataset.loading = 'true';
+                content.style.opacity = '0.55';
+
+                fetch(link.href, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('No se pudo cargar la siguiente página.');
+                        }
+                        return response.text();
+                    })
+                    .then(html => {
+                        const documentParser = new DOMParser();
+                        const page = documentParser.parseFromString(html, 'text/html');
+                        const nextContent = page.querySelector('.content-wrapper');
+
+                        if (!nextContent) {
+                            throw new Error('La respuesta no contiene el listado solicitado.');
+                        }
+
+                        content.innerHTML = nextContent.innerHTML;
+                        window.scrollTo({ top: content.offsetTop - 20, behavior: 'smooth' });
+                    })
+                    .catch(error => {
+                        window.dispatchEvent(new CustomEvent('pagination:error', {
+                            detail: error.message
+                        }));
+                    })
+                    .finally(() => {
+                        content.style.opacity = '';
+                        link.dataset.loading = 'false';
+                    });
+            });
         });
     </script>
     @stack('scripts')

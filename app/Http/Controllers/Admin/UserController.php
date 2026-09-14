@@ -11,15 +11,22 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(10);
-        return view('web.admin.users.index', compact('users'));
+        $search = trim((string) $request->input('search'));
+        $users = User::when($search !== '', function ($query) use ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('role', 'like', "%{$search}%");
+            });
+        })->orderBy('name')->paginate(10)->withQueryString();
+        return view('web.admin.usuarios.index', compact('users'));
     }
 
     public function create()
     {
-        return view('web.admin.users.create');
+        return view('web.admin.usuarios.create');
     }
 
     public function store(Request $request)
@@ -38,12 +45,12 @@ class UserController extends Controller
             'role'     => $request->role,
         ]);
 
-        return redirect()->route('admin.users.index')->with('success', 'Usuario creado correctamente.');
+        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario creado correctamente.');
     }
 
     public function edit(User $user)
     {
-        return view('web.admin.users.edit', compact('user'));
+        return view('web.admin.usuarios.edit', compact('user'));
     }
 
     public function update(Request $request, User $user)
@@ -65,7 +72,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario actualizado correctamente.');
     }
 
     public function destroy(User $user)
@@ -75,6 +82,6 @@ class UserController extends Controller
         }
 
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado correctamente.');
+        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario eliminado correctamente.');
     }
 }

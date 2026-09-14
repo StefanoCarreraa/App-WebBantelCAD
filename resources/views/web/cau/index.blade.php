@@ -88,6 +88,9 @@
         </p>
     </div>
 </div>
+<div class="d-flex justify-content-center mt-4 mb-5" data-aos="fade-up">
+    {{ $caus->links('pagination::bootstrap-4') }}
+</div>
 
 <div class="container mb-5">
 
@@ -231,13 +234,6 @@
             </div>
         @endforelse
     </div>
-
-    <!-- 5. Paginación -->
-    @if(method_exists($caus, 'links'))
-        <div class="d-flex justify-content-center mt-4 mb-5" data-aos="fade-up">
-            {{ $caus->appends(request()->query())->links('pagination::bootstrap-4') }}
-        </div>
-    @endif
 
 </div>
 @endsection

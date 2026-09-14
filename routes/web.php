@@ -33,21 +33,25 @@ Route::prefix('admin')
     ->middleware(['auth', 'role:ADMIN,CONTENT_MANAGER'])
     ->name('admin.')
     ->group(function () {
-        
+
         // Dashboard Principal
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        
+
         // Módulos CRUD Principales
-        Route::resource('centers', AdminCenterController::class);
-        Route::resource('activities', AdminActivityController::class);
-        Route::resource('news', AdminNewsController::class);
-        Route::resource('resources', AdminResourceController::class)->except(['show', 'edit', 'update']);
-        Route::resource('external-links', ExternalLinkController::class)->except(['create', 'edit', 'show']);
-        Route::resource('users', UserController::class);
-        
+        Route::resource('centros', AdminCenterController::class)
+            ->parameters(['centros' => 'center']);
+        Route::resource('actividades', AdminActivityController::class)
+            ->parameters(['actividades' => 'activity']);
+        Route::resource('noticias', AdminNewsController::class)
+            ->parameters(['noticias' => 'news']);
+        Route::resource('recursos', AdminResourceController::class)->except(['show'])
+            ->parameters(['recursos' => 'resource']);
+        Route::resource('enlaces-externos', ExternalLinkController::class)->except(['create', 'edit', 'show']);
+        Route::resource('usuarios', UserController::class);
+
         // Módulos Especiales de Gestión y Evidencias
-        Route::get('stats', [StatsController::class, 'index'])->name('stats.index');
-        Route::delete('activities/evidences/{evidence}', [AdminActivityController::class, 'destroyEvidence'])->name('activities.evidences.destroy');
+        Route::get('estadisticas', [StatsController::class, 'index'])->name('estadisticas.index');
+        Route::delete('actividades/evidencias/{evidence}', [AdminActivityController::class, 'destroyEvidence'])->name('actividades.evidencias.destroy');
     });
 
 // --------------------------------------------------------------------------
@@ -57,22 +61,22 @@ Route::middleware(['web', TrackVisitStats::class])
     ->prefix('{region}')
     ->where(['region' => 'pasco|huanuco'])
     ->group(function () {
-        
+
         // Inicio y Secciones Institucionales
-        Route::get('/', [HomeController::class, 'index'])->name('home');
-        Route::get('/que-es-un-cad', [HomeController::class, 'aboutCad'])->name('about.cad');
+        Route::get('/', [HomeController::class, 'index'])->name('inicio');
+        Route::get('/que-es-un-cad', [HomeController::class, 'aboutCad'])->name('sobre.cad');
         Route::get('/prevencion-sismos', [HomeController::class, 'sismos'])->name('sismos');
-        
+
         // Directorios CAD y CAU
-        Route::get('/centros', [CadController::class, 'index'])->name('cad.index');
-        Route::get('/centros/{code}', [CadController::class, 'show'])->name('cad.show');
+        Route::get('/centros', [CadController::class, 'index'])->name('centros.index');
+        Route::get('/centros/{code}', [CadController::class, 'show'])->name('centros.detalle');
         Route::get('/cau', [CadController::class, 'cauIndex'])->name('cau.index');
-        
+
         // Módulos Dinámicos Informativos
         Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
-        Route::get('/noticias', [PublicNewsController::class, 'index'])->name('news.index');
-        Route::get('/noticias/{slug}', [PublicNewsController::class, 'show'])->name('news.show');
-        Route::get('/recursos-digitales', [PublicResourceController::class, 'index'])->name('resources.index');
+        Route::get('/noticias', [PublicNewsController::class, 'index'])->name('noticias.index');
+        Route::get('/noticias/{slug}', [PublicNewsController::class, 'show'])->name('noticias.detalle');
+        Route::get('/recursos-digitales', [PublicResourceController::class, 'index'])->name('recursos.index');
     });
 
 // --------------------------------------------------------------------------

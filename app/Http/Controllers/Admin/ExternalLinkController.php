@@ -9,18 +9,32 @@ use Illuminate\Http\Request;
 
 class ExternalLinkController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $links = ExternalLink::with('region')->latest()->paginate(15);
+        $search = trim((string) $request->input('search'));
+        $links = ExternalLink::with('region')
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('title', 'like', "%{$search}%")
+                        ->orWhere('category', 'like', "%{$search}%")
+                        ->orWhere('url', 'like', "%{$search}%")
+                        ->orWhereHas('region', function ($query) use ($search) {
+                            $query->where('name', 'like', "%{$search}%");
+                        });
+                });
+            })
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
         $regions = Region::where('status', true)->get();
 
-        return view('web.admin.external_links.index', compact('links', 'regions'));
+        return view('web.admin.enlaces_externos.index', compact('links', 'regions'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'region_id' => 'required|exists:regions,id',
+            'region_id' => 'required|exists:regiones,id',
             'category'  => 'required|string|max:100',
             'title'     => 'required|string|max:255',
             'url'       => 'required|url|max:500',

@@ -10,15 +10,15 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('region_id')->constrained('regions')->onDelete('cascade');
-            $table->foreignId('center_id')->nullable()->constrained('centers')->onDelete('set null');
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->text('summary')->nullable();
-            $table->longText('content');
-            $table->string('main_image')->nullable();
-            $table->dateTime('published_at')->nullable();
-            $table->enum('status', ['DRAFT', 'PUBLISHED', 'ARCHIVED'])->default('DRAFT');
+            $table->foreignId('region_id')->constrained('regions')->onDelete('cascade'); // Región asociada
+            $table->foreignId('center_id')->nullable()->constrained('centers')->onDelete('set null'); // Centro relacionado opcional
+            $table->string('title'); // Título de la noticia
+            $table->string('slug')->unique(); // Slug para URL amigable
+            $table->text('summary')->nullable(); // Resumen breve
+            $table->longText('content'); // Contenido completo
+            $table->string('main_image')->nullable(); // Imagen principal
+            $table->dateTime('published_at')->nullable(); // Fecha de publicación
+            $table->enum('status', ['DRAFT', 'PUBLISHED', 'ARCHIVED'])->default('DRAFT'); // Estado de publicación
             $table->timestamps();
         });
     }

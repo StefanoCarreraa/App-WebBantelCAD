@@ -43,7 +43,7 @@ class CadController extends Controller
             });
         }
 
-        $centers = $query->paginate(12)->withQueryString();
+        $centers = $query->orderBy('code')->paginate(12)->withQueryString();
 
         // Listas para los desplegables de filtros
         $provinces = Center::where('region_id', $region->id)->distinct()->pluck('province');
@@ -56,7 +56,7 @@ class CadController extends Controller
             'cau' => Center::where('region_id', $region->id)->where('type', 'CAU')->count(),
         ];
 
-        return view('web.cad.index', compact('region', 'centers', 'provinces', 'stats'));
+        return view('web.centros.index', compact('region', 'centers', 'provinces', 'stats'));
     }
 
     /**
@@ -73,7 +73,7 @@ class CadController extends Controller
             }])
             ->firstOrFail();
 
-        return view('web.cad.show', compact('region', 'center'));
+        return view('web.centros.show', compact('region', 'center'));
     }
 
     /**
@@ -101,9 +101,9 @@ class CadController extends Controller
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                    ->where('code', 'like', "%{$search}%")
-                    ->where('locality', 'like', "%{$search}%")
-                    ->where('district', 'like', "%{$search}%");
+                    ->orWhere('code', 'like', "%{$search}%")
+                    ->orWhere('locality', 'like', "%{$search}%")
+                    ->orWhere('district', 'like', "%{$search}%");
             });
         }
 
@@ -113,7 +113,7 @@ class CadController extends Controller
         }
 
         // 4. Obtener resultados paginados
-        $caus = $query->paginate(10);
+        $caus = $query->orderBy('code')->paginate(10)->withQueryString();
 
         // 5. Retornar vista pasando la variable $provinces requerida
         return view('web.cau.index', compact('region', 'caus', 'provinces'));

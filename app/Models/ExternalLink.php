@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ExternalLink extends Model
 {
+    protected $table = 'enlaces_externos';
+
     protected $fillable = [
         'region_id',
         'category',

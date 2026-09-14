@@ -9,7 +9,7 @@ class News extends Model
 {
     use HasFactory;
 
-    protected $table = 'news';
+    protected $table = 'noticias';
 
     protected $fillable = [
         'region_id',
