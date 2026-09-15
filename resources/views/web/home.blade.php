@@ -3,17 +3,142 @@
 @section('title', 'Portal CAD - Región ' . $region->name)
 
 @section('content')
+    <div class="home-page">
     <style>
+        .home-page {
+            --portal-navy: #0f2027;
+            --portal-teal: #2c5364;
+            --portal-teal-light: #557b87;
+            --portal-gold: #f4c95d;
+            --portal-gold-dark: #b98216;
+            --portal-surface: #f2f6f7;
+            --portal-ink: #24343b;
+        }
+
+        .home-page .text-primary {
+            color: var(--portal-teal) !important;
+        }
+
+        .home-page .bg-primary {
+            background-color: var(--portal-teal) !important;
+        }
+
+        .home-page .border-primary {
+            border-color: var(--portal-teal) !important;
+        }
+
+        .home-page .btn-outline-primary {
+            color: var(--portal-teal);
+            border-color: var(--portal-teal);
+        }
+
+        .home-page .btn-outline-primary:hover,
+        .home-page .btn-outline-primary:focus {
+            color: #fff;
+            background-color: var(--portal-teal);
+            border-color: var(--portal-teal);
+        }
+
+        .home-page .btn-warning {
+            color: #17262d;
+            background: linear-gradient(135deg, #f9d976, #e9b83f);
+            border-color: #e9b83f;
+            box-shadow: 0 8px 18px rgba(233, 184, 63, .32);
+        }
+
+        .home-page .btn-warning:hover,
+        .home-page .btn-warning:focus {
+            color: #17262d;
+            background: linear-gradient(135deg, #ffe69a, #f0c04c);
+            border-color: #f0c04c;
+            box-shadow: 0 10px 22px rgba(233, 184, 63, .42);
+        }
+
+        .home-page .text-warning {
+            color: var(--portal-gold-dark) !important;
+        }
+
+        .home-page .hero-animated .text-warning,
+        .home-page .hero-animated .badge-warning {
+            color: #fff !important;
+            background: linear-gradient(135deg, #f4c95d, #d99d24) !important;
+            border: 1px solid rgba(255, 255, 255, .35);
+            text-shadow: 0 1px 2px rgba(15, 32, 39, .35);
+        }
+
+        .home-page .bg-light {
+            background-color: var(--portal-surface) !important;
+        }
+
+        .home-page h1,
+        .home-page h2,
+        .home-page h3,
+        .home-page h4,
+        .home-page h5 {
+            color: var(--portal-ink);
+        }
+
+        .home-page .hero-animated h1,
+        .home-page .hero-animated p,
+        .home-page .hero-animated .text-light {
+            color: #fff !important;
+        }
+
+        .home-page .hero-animated h1 {
+            text-shadow: 0 3px 12px rgba(0, 0, 0, .6);
+        }
+
+        .home-page .hero-animated .btn-outline-light {
+            color: #fff;
+            border-width: 2px;
+            border-color: rgba(255, 255, 255, .9);
+            background: rgba(15, 32, 39, .2);
+        }
+
+        .home-page .hero-animated .btn-outline-light:hover,
+        .home-page .hero-animated .btn-outline-light:focus {
+            color: var(--portal-navy);
+            background: #fff;
+            border-color: #fff;
+        }
+
         .hero-animated {
-            background: linear-gradient(135deg, rgba(15, 32, 67, 0.9) 0%, rgba(32, 58, 67, 0.85) 100%),
+            background: linear-gradient(135deg, rgba(15, 32, 39, 0.96) 0%, rgba(44, 83, 100, 0.9) 100%),
                 url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
-            padding: 5rem 0;
+            padding: 4.5rem 0;
             position: relative;
             overflow: hidden;
         }
 
         .hero-title {
             text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-collage {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: .75rem;
+            max-width: 860px;
+            margin: 1.5rem auto 0;
+        }
+
+        .hero-collage img {
+            width: 100%;
+            height: 135px;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, .75);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+        }
+
+        @media (max-width: 575.98px) {
+            .hero-collage {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-collage img {
+                height: 110px;
+            }
         }
 
         .card-hover-effect {
@@ -44,13 +169,13 @@
 
         .activity-glass-card {
             border-radius: 12px;
-            border-left: 5px solid #007bff;
+            border-left: 5px solid var(--portal-teal);
             transition: all 0.3s ease;
         }
 
         .activity-glass-card:hover {
             transform: scale(1.02);
-            box-shadow: 0 10px 25px rgba(0, 123, 255, 0.15) !important;
+            box-shadow: 0 10px 25px rgba(44, 83, 100, 0.18) !important;
         }
 
         /* Estilos Módulo Prevención de Sismos */
@@ -75,9 +200,138 @@
             justify-content: center;
             font-size: 1.4rem;
         }
+
+        .earthquake-infographic {
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #fffaf0 0%, #f4f6f7 100%);
+            border: 1px solid #e9ecef;
+        }
+
+        .earthquake-infographic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 7px;
+            background: linear-gradient(90deg, #ffc107 0 33.33%, #dc3545 33.33% 66.66%, #28a745 66.66%);
+        }
+
+        .infographic-step {
+            position: relative;
+            height: 100%;
+            padding: 1.5rem;
+            background: #fff;
+            border-radius: 14px;
+            border: 1px solid #edf0f2;
+            box-shadow: 0 5px 16px rgba(15, 32, 39, .06);
+        }
+
+        .infographic-step-icon {
+            width: 58px;
+            height: 58px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            color: #fff;
+            font-size: 1.55rem;
+            margin-bottom: 1rem;
+        }
+
+        .infographic-step.before .infographic-step-icon {
+            background: #ffc107;
+            color: #3d3010;
+        }
+
+        .infographic-step.during .infographic-step-icon {
+            background: #dc3545;
+        }
+
+        .infographic-step.after .infographic-step-icon {
+            background: #28a745;
+        }
+
+        .infographic-step ul {
+            padding-left: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        .infographic-step li {
+            margin-bottom: .65rem;
+            color: #53656c;
+            font-size: .92rem;
+        }
+
+        .infographic-step li:last-child {
+            margin-bottom: 0;
+        }
+
+        .emergency-kit {
+            background: #0f2027;
+            color: #fff;
+            border-radius: 14px;
+            padding: 1.35rem 1.5rem;
+        }
+
+        .emergency-kit .kit-item {
+            display: inline-flex;
+            align-items: center;
+            margin: .3rem .4rem .3rem 0;
+            padding: .45rem .7rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .1);
+            color: #f8f9fa;
+            font-size: .84rem;
+        }
+
+        .emergency-kit .kit-item i {
+            color: #ffc107;
+            margin-right: .4rem;
+        }
+
+        .home-page .card {
+            border-radius: 14px;
+        }
+
+        .home-page .card-header.bg-primary {
+            background: linear-gradient(135deg, var(--portal-navy), var(--portal-teal)) !important;
+        }
+
+        .home-page .card-header.bg-primary h2,
+        .home-page .card-header.bg-primary p {
+            color: #fff !important;
+        }
+
+        .home-page .cad-b-card {
+            border-top-color: #ffc107 !important;
+        }
+
+        .home-page .cad-b-icon {
+            color: #ffc107 !important;
+        }
+
+        .home-page .indeci-card {
+            background: linear-gradient(135deg, var(--portal-navy), var(--portal-teal)) !important;
+        }
+
+        .home-page .indeci-card h5 {
+            color: #fff !important;
+        }
+
+        .home-page .indeci-card p {
+            color: rgba(255, 255, 255, .82) !important;
+        }
+
+        .home-page .service-card p,
+        .home-page .activity-glass-card p {
+            color: #53656c !important;
+        }
     </style>
 
-    <!-- Banner Principal Animado -->
+    <!-- Bienvenida y frase institucional -->
     <div class="hero-animated text-white mb-5">
         <div class="container text-center py-4">
             <span
@@ -86,13 +340,21 @@
                 <i class="fas fa-satellite-dish mr-1"></i> Conectividad e Inclusión Digital
             </span>
             <h1 class="display-4 font-weight-bold mb-3 hero-title animate__animated animate__fadeInUp">
-                Conectividad, aprendizaje y oportunidades
+                Bienvenidos al Portal Web de los Centros de Acceso Digital (CAD) de {{ $region->name }}
             </h1>
             <p class="lead max-w-2xl mx-auto mb-4 text-light animate__animated animate__fadeInUp animate__delay-1s"
                 style="font-size: 1.25rem;">
-                Portal oficial de los Centros de Acceso Digital (CAD) en la Región <strong
-                    class="text-warning">{{ $region->name }}</strong>
+                “Los Centros de Acceso Digital (CAD) fortalecerán las capacidades de los pobladores de las comunidades
+                rurales en tecnologías de información y comunicación”.
             </p>
+            <div class="hero-collage" aria-label="Imágenes representativas de la región {{ $region->name }}">
+                <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80"
+                    alt="Paisaje representativo de la región {{ $region->name }}">
+                <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=600&q=80"
+                    alt="Personas participando en una actividad de aprendizaje">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80"
+                    alt="Uso de tecnología y conectividad digital">
+            </div>
             <div
                 class="d-flex flex-wrap justify-content-center gap-3 mt-4 animate__animated animate__zoomIn animate__delay-1s">
                 <a href="{{ route('centros.index', ['region' => $region->slug]) }}"
@@ -108,6 +370,111 @@
     </div>
 
     <div class="container">
+
+        @if($region->slug === 'pasco')
+            <!-- Proyecto de Internet de Banda Ancha -->
+            <section class="card border-0 shadow-lg mb-5 overflow-hidden" data-aos="fade-up">
+                <div class="card-header bg-primary text-white p-4">
+                    <h2 class="h3 font-weight-bold mb-1">Proyecto de Internet de Banda Ancha</h2>
+                    <p class="mb-0">Creación de Banda Ancha para la Conectividad Integral y Desarrollo Social de la región Pasco</p>
+                </div>
+                <div class="card-body p-4 p-lg-5">
+                    <div class="earthquake-infographic p-3 p-lg-4 mb-4">
+                        <div class="text-center mb-4">
+                            <span class="badge badge-danger text-uppercase px-3 py-2 mb-2">
+                                <i class="fas fa-shield-alt mr-1"></i> Infografía de prevención
+                            </span>
+                            <h4 class="font-weight-bold text-dark mb-2">Prepárate, actúa y protégete</h4>
+                            <p class="text-muted mb-0">Sigue estas recomendaciones antes, durante y después de un sismo.</p>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 mb-4 mb-lg-0">
+                                <div class="infographic-step before">
+                                    <div class="infographic-step-icon"><i class="fas fa-clipboard-check"></i></div>
+                                    <h4 class="h5 font-weight-bold text-dark">ANTES</h4>
+                                    <ul>
+                                        <li>Identifica zonas seguras y estructuras firmes.</li>
+                                        <li>Prepara tu mochila de emergencia.</li>
+                                        <li>Participa en simulacros de tu comunidad.</li>
+                                        <li>Consulta cómo reforzar tu vivienda.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-4 mb-lg-0">
+                                <div class="infographic-step during">
+                                    <div class="infographic-step-icon"><i class="fas fa-person-running"></i></div>
+                                    <h4 class="h5 font-weight-bold text-dark">DURANTE</h4>
+                                    <ul>
+                                        <li>Mantén la calma y protege tu cabeza.</li>
+                                        <li>Aléjate de ventanas y objetos que puedan caer.</li>
+                                        <li>Ubícate en una zona segura.</li>
+                                        <li>No uses ascensores ni satures las líneas telefónicas.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="infographic-step after">
+                                    <div class="infographic-step-icon"><i class="fas fa-house-damage"></i></div>
+                                    <h4 class="h5 font-weight-bold text-dark">DESPUÉS</h4>
+                                    <ul>
+                                        <li>Verifica fugas de gas y daños visibles.</li>
+                                        <li>Auxilia a las personas heridas.</li>
+                                        <li>Aléjate de estructuras dañadas y posibles réplicas.</li>
+                                        <li>Usa canales oficiales y mensajes de texto.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="emergency-kit mt-4">
+                            <h4 class="h5 font-weight-bold mb-2"><i class="fas fa-kit-medical text-warning mr-2"></i>Mochila de emergencia</h4>
+                            <p class="small text-white-50 mb-2">Incluye lo esencial para responder durante las primeras horas:</p>
+                            <span class="kit-item"><i class="fas fa-prescription-bottle-medical"></i>Medicamentos</span>
+                            <span class="kit-item"><i class="fas fa-kit-medical"></i>Primeros auxilios</span>
+                            <span class="kit-item"><i class="fas fa-bottle-water"></i>Agua</span>
+                            <span class="kit-item"><i class="fas fa-box-open"></i>Alimentos</span>
+                            <span class="kit-item"><i class="fas fa-lightbulb"></i>Linterna</span>
+                            <span class="kit-item"><i class="fas fa-radio"></i>Radio</span>
+                            <span class="kit-item"><i class="fas fa-baby"></i>Artículos para bebés y adultos mayores</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <h3 class="h5 font-weight-bold text-dark">¿Qué es el proyecto?</h3>
+                            <p class="text-muted">
+                                Es una iniciativa promovida por el Estado peruano para mejorar la conectividad y el
+                                desarrollo rural y de interés social de Pasco. Las instituciones educativas, centros de
+                                salud y comisarías tendrán acceso a Internet de alta velocidad, y la población recibirá
+                                capacitación en alfabetización digital y tecnologías de la información y comunicación.
+                            </p>
+                            <h3 class="h5 font-weight-bold text-dark mt-4">¿Cuál es su objetivo?</h3>
+                            <p class="text-muted">
+                                Brindar acceso a Internet e Intranet a 264 localidades, 376 instituciones educativas,
+                                155 centros de salud y 14 comisarías.
+                            </p>
+                            <p class="text-muted mb-0">
+                                El proyecto es financiado por PRONATEL, adscrito al MTC, y ejecutado por BANDTEL S.A.C.,
+                                que ha desplegado más de 1,021 kilómetros de fibra óptica en la región.
+                            </p>
+                        </div>
+                        <div class="col-lg-5 mt-4 mt-lg-0">
+                            <div class="bg-light rounded-lg p-4 h-100">
+                                <h3 class="h5 font-weight-bold text-primary">Beneficios para la comunidad</h3>
+                                <ul class="pl-3 text-muted mb-0">
+                                    <li class="mb-2"><strong>Mejor comunicación:</strong> contacto con familiares e instituciones.</li>
+                                    <li class="mb-2"><strong>Más oportunidades educativas:</strong> clases virtuales y recursos digitales.</li>
+                                    <li class="mb-2"><strong>Desarrollo comunitario:</strong> trámites, servicios públicos y comercio electrónico.</li>
+                                    <li class="mb-2"><strong>Internet gratuito:</strong> cobertura WiFi en plazas principales beneficiarias.</li>
+                                    <li><strong>Capacidades digitales:</strong> formación para usar Internet y nuevas tecnologías.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        @endif
 
         <!-- Tarjetas Cifras Destacadas -->
         <div class="row text-center mb-5">
@@ -132,10 +499,10 @@
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="300">
-                <div class="card card-hover-effect shadow-sm bg-white p-3 border-top border-warning"
+                <div class="card card-hover-effect shadow-sm bg-white p-3 border-top cad-b-card"
                     style="border-top-width: 5px !important;">
                     <div class="card-body p-2">
-                        <div class="text-warning mb-2"><i class="fas fa-store fa-3x"></i></div>
+                        <div class="cad-b-icon mb-2"><i class="fas fa-store fa-3x"></i></div>
                         <h2 class="display-4 font-weight-bold text-dark mb-0">{{ $stats['cad_b'] }}</h2>
                         <span class="text-muted font-weight-bold small text-uppercase">CAD Tipo B</span>
                     </div>
@@ -240,6 +607,20 @@
                     comunidad.</p>
             </div>
 
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h4 class="h5 font-weight-bold text-dark">¿Qué es un sismo y por qué sucede?</h4>
+                    <p class="text-muted mb-2">
+                        Es un movimiento repentino del suelo causado por la liberación súbita de energía acumulada en la
+                        tierra, generalmente por la fricción o el choque de placas tectónicas.
+                    </p>
+                    <p class="text-muted mb-0">
+                        El Perú se encuentra en el “Círculo de Fuego del Océano Pacífico”, donde se concentra gran parte
+                        de la actividad sísmica mundial.
+                    </p>
+                </div>
+            </div>
+
             <div class="row">
                 <!-- ANTES -->
                 <div class="col-md-4 mb-4" data-aos="fade-right" data-aos-delay="100">
@@ -252,12 +633,11 @@
                                 <h4 class="font-weight-bold text-dark mb-0">ANTES</h4>
                             </div>
                             <ul class="pl-3 text-secondary small mb-0">
-                                <li class="mb-2">Elabora tu <strong>Plan Familiar de Emergencia</strong> con toda la
-                                    comunidad.</li>
-                                <li class="mb-2">Prepara la <strong>Mochila para Emergencias</strong> con suministros
-                                    básicos.</li>
-                                <li class="mb-2">Identifica las <strong>Zonas Seguras</strong> internas y externas y
-                                    rutas de evacuación.</li>
+                                <li class="mb-2">Ubica zonas seguras y estructuras firmes.</li>
+                                <li class="mb-2">Prepara una mochila de emergencia.</li>
+                                <li class="mb-2">Participa en los simulacros de tu comunidad.</li>
+                                <li class="mb-2">Educa a los niños sobre medidas de precaución.</li>
+                                <li>Consulta con un especialista para reforzar tu vivienda.</li>
                             </ul>
                         </div>
                     </div>
@@ -274,12 +654,11 @@
                                 <h4 class="font-weight-bold text-dark mb-0">DURANTE</h4>
                             </div>
                             <ul class="pl-3 text-secondary small mb-0">
-                                <li class="mb-2"><strong>Conserva la calma</strong> y transmite tranquilidad a las
-                                    personas vulnerables.</li>
-                                <li class="mb-2">Ubícate en la <strong>Zona Segura</strong> predeterminada de
-                                    inmediato.</li>
-                                <li class="mb-2"><strong>Aléjate de ventanas</strong>, repisas y objetos pesados que
-                                    puedan caer.</li>
+                                <li class="mb-2"><strong>Mantén la calma</strong> para reaccionar adecuadamente.</li>
+                                <li class="mb-2"><strong>Aléjate de ventanas</strong> y objetos con riesgo de caída.</li>
+                                <li class="mb-2">Busca un espacio seguro si no puedes salir rápidamente.</li>
+                                <li class="mb-2">Usa mensajes de texto para no saturar las líneas telefónicas.</li>
+                                <li>No utilices ascensores.</li>
                             </ul>
                         </div>
                     </div>
@@ -296,19 +675,33 @@
                                 <h4 class="font-weight-bold text-dark mb-0">DESPUÉS</h4>
                             </div>
                             <ul class="pl-3 text-secondary small mb-0">
-                                <li class="mb-2">Revisa si hay heridos o daños estructurales antes de reingresar.</li>
-                                <li class="mb-2">Utiliza mensajes de texto (SMS) y evita saturar las líneas telefónicas.
-                                </li>
-                                <li class="mb-2">Sigue únicamente las indicaciones e información de <strong>canales
-                                        oficiales</strong>.</li>
+                                <li class="mb-2">Verifica que no existan fugas de gas.</li>
+                                <li class="mb-2">Comunícate con Bomberos (116), Cruz Roja ((01) 2660481) o SAMU (106).</li>
+                                <li class="mb-2">Auxilia a las personas heridas.</li>
+                                <li class="mb-2">Mantente alerta ante réplicas y aléjate de estructuras dañadas.</li>
+                                <li>En zonas costeras, aléjate del mar hasta descartar alerta de tsunami.</li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div class="card border-0 shadow-sm mt-2 mb-4">
+                <div class="card-body p-4">
+                    <h4 class="h5 font-weight-bold text-dark"><i class="fas fa-first-aid text-danger mr-2"></i>Contenido de la mochila de emergencia</h4>
+                    <p class="text-muted mb-2">
+                        Incluye alcohol, desinfectante, medicamentos, vendas, curitas, toallas, frazadas, agua embotellada,
+                        alimentos enlatados, linterna y radio a pilas.
+                    </p>
+                    <p class="text-muted mb-0">
+                        Si en casa hay bebés o adultos mayores, agrega biberones, pañales, papillas o mantas según sus
+                        necesidades.
+                    </p>
+                </div>
+            </div>
+
             <!-- Módulo e Información de INDECI con Logo Oficial -->
-            <div class="card bg-dark text-white border-0 shadow-lg mt-3" data-aos="zoom-in">
+            <div class="card indeci-card text-white border-0 shadow-lg mt-3" data-aos="zoom-in">
                 <div class="card-body p-4 d-flex flex-column flex-md-row justify-content-between align-items-center">
                     <div class="d-flex align-items-center mb-3 mb-md-0">
                         <div class="bg-white p-2 rounded mr-3 shadow-sm d-flex align-items-center justify-content-center"
@@ -331,5 +724,6 @@
             </div>
         </div>
 
+    </div>
     </div>
 @endsection
