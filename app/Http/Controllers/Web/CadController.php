@@ -43,6 +43,7 @@ class CadController extends Controller
             });
         }
 
+        $mapCenters = (clone $query)->orderBy('code')->get();
         $centers = $query->orderBy('code')->paginate(12)->withQueryString();
 
         // Listas para los desplegables de filtros
@@ -56,7 +57,7 @@ class CadController extends Controller
             'cau' => Center::where('region_id', $region->id)->where('type', 'CAU')->count(),
         ];
 
-        return view('web.centros.index', compact('region', 'centers', 'provinces', 'stats'));
+        return view('web.centros.index', compact('region', 'centers', 'mapCenters', 'provinces', 'stats'));
     }
 
     /**

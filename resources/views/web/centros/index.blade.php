@@ -257,7 +257,7 @@
             });
 
             // Conversión del listado de centros a objeto JSON para los marcadores
-            var centers = @json($centers);
+            var centers = @json($mapCenters);
 
             centers.forEach(function(center) {
                 if (center.latitude && center.longitude) {
